@@ -22,7 +22,7 @@ void setup() {
 	}
 
  
-	delay(10000); // GIVE THE SENSOR SOME TIME TO START
+	delay(5000); // GIVE THE SENSOR SOME TIME TO START
 
 
 
@@ -54,7 +54,7 @@ void loop(){
      unsigned long timeout = millis();
     while (client.available() == 0) 
     {
-      if (millis() - timeout > 25000) //If nothing is available on server for 25 seconds, close the connection.
+      if (millis() - timeout > 15000) //If nothing is available on server for 15 seconds, close the connection.
       { 
         return;
       }
@@ -75,9 +75,6 @@ void loop(){
 		client.stop();	// DISCONNECT FROM THE SERVER
 	}
 
-	delay(300000); // WAIT FIVE MINUTES BEFORE SENDING AGAIN
+	delay(18000); // WAIT THREE MINUTES BEFORE SENDING AGAIN
 
 }
-
-
-
