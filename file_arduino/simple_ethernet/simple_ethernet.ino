@@ -8,7 +8,7 @@ char host[] = "192.168.1.105";
 
 long previousMillis = 0;
 unsigned long currentMillis = 0;
-long interval = 250000; // READING INTERVAL
+
 
 String rfid, pintu;
 String data;
@@ -31,11 +31,7 @@ void setup() {
 
 void loop(){
 
-	currentMillis = millis();
-	if(currentMillis - previousMillis > interval) { // READ ONLY ONCE PER INTERVAL
-		previousMillis = currentMillis;
-	 
-	}
+	
    rfid = "abcde";
     pintu = "2";
 	data = "rfid=" + rfid + "&pintu=" + pintu;
