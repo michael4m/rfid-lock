@@ -1,0 +1,83 @@
+#include <Ethernet.h>
+#include <SPI.h>
+
+byte mac[] = { 0x00, 0xAA, 0xBB, 0xCC, 0xDE, 0x01 }; // RESERVED MAC ADDRESS
+EthernetClient client;
+
+char host[] = "192.168.1.105";
+
+long previousMillis = 0;
+unsigned long currentMillis = 0;
+long interval = 250000; // READING INTERVAL
+
+String rfid, pintu;
+String data;
+String rcv=""; //Variable in which the server response is recorded.
+
+void setup() { 
+	Serial.begin(115200);
+
+	if (Ethernet.begin(mac) == 0) {
+		Serial.println("Failed to configure Ethernet using DHCP"); 
+	}
+
+ 
+	delay(10000); // GIVE THE SENSOR SOME TIME TO START
+
+
+
+	data = "";
+}
+
+void loop(){
+
+	currentMillis = millis();
+	if(currentMillis - previousMillis > interval) { // READ ONLY ONCE PER INTERVAL
+		previousMillis = currentMillis;
+	 
+	}
+   rfid = "abcde";
+    pintu = "2";
+	data = "rfid=" + rfid + "&pintu=" + pintu;
+
+	if (client.connect(host,80)) {
+	 // REPLACE WITH YOUR SERVER ADDRESS
+   Serial.println("Connection established");
+		client.println("POST /rfid_kontrol/api/cek_data.php HTTP/1.1"); 
+    client.print("Host: ");
+		client.println(host); // SERVER ADDRESS HERE TOO
+		client.println("Content-Type: application/x-www-form-urlencoded"); 
+		client.print("Content-Length: "); 
+		client.println(data.length()); 
+		client.println(); 
+		client.print(data);
+     unsigned long timeout = millis();
+    while (client.available() == 0) 
+    {
+      if (millis() - timeout > 25000) //If nothing is available on server for 25 seconds, close the connection.
+      { 
+        return;
+      }
+    }
+    while(client.available())
+    {
+      String line = client.readStringUntil('\n') + "\n"; //Read the server response line by line..
+      rcv+=line; //And store it in rcv.
+    }
+    client.stop(); // Close the connection. 
+	}else {
+    Serial.println("Connection failed");
+  }
+  Serial.println("Received string: ");
+  Serial.println(rcv); //Display the server response.
+
+	if (client.connected()) { 
+		client.stop();	// DISCONNECT FROM THE SERVER
+	}
+
+	delay(300000); // WAIT FIVE MINUTES BEFORE SENDING AGAIN
+
+}
+
+
+
