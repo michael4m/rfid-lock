@@ -2,8 +2,8 @@
   
 	include 'db_access.php';
 
-	$rfid = $_POST['rfid'];
-	$pintu = $_POST['pintu'];	
+	$rfid = $_GET['rfid'];
+	//$pintu = $_GET['pintu'];	
 
 	$result = mysqli_query($conn,"SELECT * FROM user WHERE kode_rfid='".$rfid."' LIMIT 1");
 

@@ -1,4 +1,3 @@
-
 #include <SPI.h>
 #include <MFRC522.h>
  
@@ -12,11 +11,11 @@
 #define DENIED_DELAY 1000
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 String idKartu = "";
-String idReader = "2";
+//String idReader = "2";
  
 void setup() 
 {
-  Serial.begin(9600);   // Initiate a serial communication
+  Serial.begin(115200);   // Initiate a serial communication
   SPI.begin();          // Initiate  SPI bus
   mfrc522.PCD_Init();   // Initiate MFRC522
   pinMode(LED_G, OUTPUT);
@@ -57,7 +56,7 @@ void loop()
   content.toUpperCase();
 
   idKartu = content.substring(1);
-  Serial.println(idReader + "/" + idKartu);
+  Serial.println(idKartu);
   delay(1000);
   
 //  if (content.substring(1) == "0A CF 92 02") //change here the UID of the card/cards that you want to give access

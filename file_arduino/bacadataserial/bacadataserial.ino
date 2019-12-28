@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 
 SoftwareSerial port2(3, 2);
-String informasi, informasi2;
+String informasi;
 void setup() {
   // put your setup code here, to run once:
 Serial.begin(9600);
@@ -22,8 +22,8 @@ while(Serial.available() > 0){
 
   while(port2.available() > 0){
     
-    informasi2 = port2.readStringUntil("\n");
-    Serial.print("INFO :" +informasi2 );
+    informasi = port2.readStringUntil("\n");
+    Serial.print("INFO :" +informasi );
   
   }
 }
